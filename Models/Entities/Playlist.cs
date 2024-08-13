@@ -1,10 +1,9 @@
 ﻿namespace Models.Entities;
 
-public class Track
+public class Playlist
 {
     public int Id { get; set; }
     public required string Name { get; set; }
     public string? Description { get; set; }
-    public int PlaylistId { get; set; }
-    public Playlist? Playlist { get; set; }
+    public ICollection<Track>? Tracks { get; set; }
 }
