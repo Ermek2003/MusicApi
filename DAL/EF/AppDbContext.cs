@@ -10,9 +10,9 @@ public class AppDbContext : DbContext
         
     }
 
-    DbSet<User> Users { get; set; }
-    DbSet<Track> Tracks { get; set; }
-    DbSet<Playlist> Playlists { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<Track> Tracks { get; set; }
+    public DbSet<Playlist> Playlists { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
