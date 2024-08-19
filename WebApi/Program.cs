@@ -1,5 +1,6 @@
 using WebApi.Extensions;
 using WebApi.Middlewares;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,10 +10,12 @@ builder.Services.AddEntityFramework(builder.Configuration);
 builder.Services.AddJwtBearerProperties(builder.Configuration);
 builder.Services.AddRepositoryService();
 builder.Services.AddBllServices();
+builder.Services.AddSwaggerProperties();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+//builder.Host.AddLogger();
 
 var app = builder.Build();
 
@@ -23,6 +26,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 

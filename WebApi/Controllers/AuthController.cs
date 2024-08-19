@@ -23,10 +23,7 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Reagister(RegisterDto dto)
     {
         var result = await _authService.RegisterAsync(dto);
-        if (result.IsSuccess)
-            return Ok(result);
-
-        return BadRequest(result);
+        return Ok(result);
     }
 
     [HttpPost]
@@ -34,17 +31,24 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Login(LoginDto dto)
     {
         var result = await _authService.LoginAsync(dto);
-        if (result.IsSuccess)
-            return Ok(result);
 
-        return Unauthorized(result);
+        return Ok(result);
+    }
+
+    [HttpPost]
+    [Route("RefreshToken")]
+    public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
+    {
+        var result = await _authService.RefreshTokenAsync(request.RefreshToken);
+
+        return Ok(result);
     }
 
     [HttpPost]
     [Route("Logout")]
-    public async Task<IActionResult> Logout()
+    public async Task<IActionResult> Logout(string userName)
     {
-        await _authService.LogoutAsync();
+        await _authService.LogoutAsync(userName);
         return Ok(new { Message = "Logged out successfully." });
     }
 }

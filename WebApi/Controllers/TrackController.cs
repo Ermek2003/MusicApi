@@ -33,7 +33,7 @@ namespace WebApi.Controllers
         }
 
         // PUT api/<TrackController>/5
-        [Authorize]
+        [Authorize(Roles = "User")]
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
