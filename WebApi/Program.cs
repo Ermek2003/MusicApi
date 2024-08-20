@@ -19,6 +19,8 @@ builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
+app.Services.InitializeDatabase();
+
 app.UseMiddleware<ExeptionHandlerMiddleware>();
 
 if (app.Environment.IsDevelopment())

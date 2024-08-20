@@ -2,6 +2,7 @@
 using Infrastructure.Interfaces.IRepository;
 using Microsoft.EntityFrameworkCore;
 using Models.Entities;
+using System.Linq.Expressions;
 
 namespace DAL.Repositories;
 
@@ -15,18 +16,18 @@ public class UserRepository : IUserRepository
     public async Task AddAsync(User user)
         => await _context.Users.AddAsync(user);
 
-    public async Task<User> GetByEmailAsync(string email)
+    public async Task<User?> GetByEmailAsync(string email)
         => await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
 
-    public async Task<User> GetByIdAsync(int id)
+    public async Task<User?> GetByIdAsync(int id)
         => await _context.Users.FindAsync(id);
 
-    public async Task<User> GetByNameAsync(string name)
+    public async Task<User?> GetByNameAsync(string name)
         => await _context.Users
         .Include(u => u.RefreshTokens)
         .FirstOrDefaultAsync(u => u.Name == name);
 
-    private async Task<IQueryable<User>> GetWithFilters(IQueryable<User> query,
+    private async Task<IQueryable<User?>> GetWithFilters(IQueryable<User> query,
         bool? checkExpireDate = null,
         int? take = null)
     {
@@ -81,4 +82,11 @@ public class UserRepository : IUserRepository
 
     public async Task SaveChangesAsync() 
         => await _context.SaveChangesAsync();
+
+    public IQueryable<User> GetAll(Expression<Func<User, bool>>? filter = null)
+    {
+        if (filter is not null)
+            return _context.Users.Where(filter).AsNoTracking();
+        return _context.Users.AsNoTracking();
+    }
 }
