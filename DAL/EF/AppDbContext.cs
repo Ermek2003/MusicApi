@@ -17,16 +17,7 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Track>()
-            .HasOne(p => p.Playlist)
-            .WithMany(p => p.Tracks)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<RefreshToken>()
-            .HasOne(r => r.User)
-            .WithMany(u => u.RefreshTokens)
-            .OnDelete(DeleteBehavior.Cascade);
-
         base.OnModelCreating(modelBuilder);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
     }
 }

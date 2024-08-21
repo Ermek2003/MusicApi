@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Interfaces.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Models.DTOs;
 using Models.Entities;
 
 namespace WebApi.Controllers;
@@ -17,35 +18,35 @@ public class PlaylistController : ControllerBase
     }
 
     [HttpGet("GetPlaylists")]
-    public async Task<List<Playlist>> GetPlaylists()
+    public async Task<List<PlaylistDto>> GetPlaylists()
     {
         return await _playlistService.GetAllAsync();
     }
 
     [HttpGet("GetById")]
-    public async Task<Playlist> GetById(int id)
+    public async Task<PlaylistDto> GetById(int id)
     {
         return await _playlistService.GetByIdAsync(id);
     }
 
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,SuperAdmin")]
     [HttpPost("AddPlaylist")]
-    public async Task<int> AddPlaylist(Playlist playlist)
+    public async Task<int> AddPlaylist(PlaylistDto.Add playlist)
     {
         return await _playlistService.AddAsync(playlist);
     }
 
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,SuperAdmin")]
     [HttpDelete("DeletePlaylist")]
-    public async Task<int> Delete(int id)
+    public async Task Delete(int id)
     {
-        return await _playlistService.DeleteAsync(id);
+        await _playlistService.DeleteAsync(id);
     }
 
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,SuperAdmin")]
     [HttpPut("UpdatePlaylist")]
-    public async Task<int> Update(Playlist playlist)
+    public async Task Update(PlaylistDto playlist)
     {
-        return await _playlistService.Update(playlist);
+        await _playlistService.Update(playlist);
     }
 }

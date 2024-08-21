@@ -1,12 +1,12 @@
-﻿using Models.Entities;
+﻿using Models.DTOs;
 
 namespace Infrastructure.Interfaces.IServices;
 
 public interface IPlaylistService
 {
-    Task<int> AddAsync(Playlist playlist);
-    Task<int> DeleteAsync(int id);
-    Task<int> Update(Playlist playlist);
-    Task<List<Playlist>> GetAllAsync();
-    Task<Playlist> GetByIdAsync(int id);
+    Task<int> AddAsync(PlaylistDto.Add dto);
+    Task DeleteAsync(int id);
+    Task Update(PlaylistDto dto);
+    Task<List<PlaylistDto>> GetAllAsync();
+    Task<PlaylistDto> GetByIdAsync(int id);
 }

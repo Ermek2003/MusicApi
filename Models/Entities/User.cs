@@ -7,5 +7,8 @@ public class User
     public required string Email { get; set; }
     public string? Password { get; set; }
     public string Role { get; set; } = "User";
-    public IList<RefreshToken>? RefreshTokens { get; set; }
+
+    public ICollection<RefreshToken>? RefreshTokens { get; set; }
+    public ICollection<Playlist>? Playlists { get; set; }
+    public ICollection<Album>? Albums { get; set; }
 }
