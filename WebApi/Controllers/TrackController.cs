@@ -1,49 +1,48 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Infrastructure.Interfaces.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Models.DTOs;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+namespace WebApi.Controllers;
 
-namespace WebApi.Controllers
+[Route("api/[controller]")]
+[ApiController]
+public class TrackController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class TrackController : ControllerBase
+    private readonly ITrackService _trackService;
+
+    public TrackController(ITrackService trackService)
     {
-        // GET: api/<TrackController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+        _trackService = trackService;
+    }
 
-        // GET api/<TrackController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+    [HttpGet("GetAll")]
+    public async Task<List<TrackDto>> GetAll()
+    {
+        return await _trackService.GetAllAsync();
+    }
 
-        // POST api/<TrackController>
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-            throw new Exception("This is a test exception");
+    [HttpGet("{id}")]
+    public async Task<TrackDto> GetById(int id)
+    {
+        return await _trackService.GetByIdAsync(id);
+    }
 
-        }
+    [HttpPost("Add")]
+    public async Task<int> Add([FromForm] TrackAddDto dto)
+    {
+        return await _trackService.AddAsync(dto);
+    }
 
-        // PUT api/<TrackController>/5
-        [Authorize(Roles = "User")]
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+    [HttpPut("Edit")]
+    public async Task Edit([FromForm] TrackEditDto dto)
+    {
+        await _trackService.UpdateAsync(dto);
+    }
 
-        // DELETE api/<TrackController>/5
-        [Authorize]
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+    [HttpDelete("Delete")]
+    public async Task Delete(int id)
+    {
+        await _trackService.DeleteAsync(id);
     }
 }

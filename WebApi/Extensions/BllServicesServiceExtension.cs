@@ -11,6 +11,7 @@ public static class BllServicesServiceExtension
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IAlbumService, AlbumService>();
+        services.AddScoped<ITrackService, TrackService>();
         services.AddScoped<PasswordHasher>();
     }
 }

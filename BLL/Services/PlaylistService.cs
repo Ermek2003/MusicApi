@@ -4,6 +4,7 @@ using Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Models.DTOs;
 using Mapster;
+using Common.Resources;
 
 namespace BLL.Services;
 
@@ -20,7 +21,9 @@ public class PlaylistService : IPlaylistService
     public async Task<int> AddAsync(PlaylistDto.Add dto)
     {
         if (await _userRepository.GetByIdAsync(dto.UserId) is null)
-            throw new InvalidOperationException($"User with ID {dto.UserId} doesn't exist");
+            throw new InvalidOperationException(string.Format(ErrorMessages.UserNotFound, dto.UserId));
+
+        //if (await )
 
         var playlist = dto.Adapt<Playlist>();
 
@@ -32,8 +35,10 @@ public class PlaylistService : IPlaylistService
 
     public async Task DeleteAsync(int id)
     {
-        if (await _playlistRepository.DeleteAsync(id) == 0)
-            throw new InvalidOperationException($"Playlist with ID {id} doesn't exist");
+        var playlist = await _playlistRepository.GetByIdAsync(id)
+            ?? throw new InvalidOperationException(string.Format(ErrorMessages.PlaylistNotFound, id));
+
+        await _playlistRepository.DeleteAsync(id);
 
         await _playlistRepository.SaveChangesAsync();
     }

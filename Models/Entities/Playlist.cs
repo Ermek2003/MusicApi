@@ -1,6 +1,6 @@
 ﻿namespace Models.Entities;
 
-public class Playlist
+public class Playlist : IEntity
 {
     public int Id { get; set; }
     public required string Name { get; set; }

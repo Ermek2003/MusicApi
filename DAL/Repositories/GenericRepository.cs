@@ -1,11 +1,12 @@
 ﻿using DAL.EF;
 using Infrastructure.Interfaces.IRepository;
 using Microsoft.EntityFrameworkCore;
+using Models.Entities;
 using System.Linq.Expressions;
 
 namespace DAL.Repositories;
 
-public class GenericRepository<T> : IGenericRepository<T> where T : class
+public class GenericRepository<T> : IGenericRepository<T> where T : class, IEntity
 {
     private readonly AppDbContext _context;
 
@@ -15,21 +16,22 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
     }
 
     protected DbSet<T> Set => _context.Set<T>();
-    
 
-    public async Task<T> AddAsync(T item)
+    public async Task AddAsync(T item)
     {
         await Set.AddAsync(item);
-        return item;
     }
 
-    public async Task<int> DeleteAsync(int id)
+    public async Task DeleteAsync(int id)
     {
         var entity = await Set.FindAsync(id);
-        if (entity is null)
-            return 0;
-        Set.Remove(entity);
-        return id;
+        if (entity is not null)
+            Set.Remove(entity);
+    }
+
+    public async Task<bool> AnyAsync(Expression<Func<T, bool>>? filter = null)
+    {
+        return await Set.AnyAsync(filter);
     }
 
     public IQueryable<T> GetAll(Expression<Func<T, bool>>? filter = null)
@@ -49,9 +51,8 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         await _context.SaveChangesAsync();
     }
 
-    public T Update(T entity)
+    public void Update(T entity)
     {
         Set.Update(entity);
-        return entity;
     }
 }

@@ -1,11 +1,12 @@
-﻿namespace Models.DTOs;
+﻿using Microsoft.AspNetCore.Http;
 
-public class TrackDto
+namespace Models.DTOs;
+
+public class TrackAddDto
 {
-    public int Id { get; set; }
     public required string Name { get; set; }
     public required string Ganre { get; set; }
     public string? Description { get; set; }
-    public required string Url { get; set; }
     public int AlbumId { get; set; }
+    public required IFormFile File { get; set; }
 }

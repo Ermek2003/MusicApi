@@ -1,6 +1,7 @@
 using WebApi.Extensions;
 using WebApi.Middlewares;
 using Serilog;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 var builder = WebApplication.CreateBuilder(args);
 
