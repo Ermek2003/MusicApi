@@ -20,7 +20,7 @@ public class AuthController : ControllerBase
 
     [HttpPost]
     [Route("Register")]
-    public async Task<IActionResult> Reagister(RegisterDto dto)
+    public async Task<IActionResult> Register(RegisterDto dto)
     {
         var result = await _authService.RegisterAsync(dto);
         return Ok(result);

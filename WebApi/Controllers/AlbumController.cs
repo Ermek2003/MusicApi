@@ -19,25 +19,25 @@ public class AlbumController : ControllerBase
     }
 
     [HttpGet("GetAll")]
-    public async Task<List<AlbumDto>> GetAllAsync()
+    public async Task<List<AlbumDto>> GetAll()
     {
         return await _albumService.GetAllAsync();
     }
 
     [HttpPost("AddAlbum")]
-    public async Task<int> AddAlbum(AlbumAddDto dto)
+    public async Task<int> Add(AlbumAddDto dto)
     {
         return await _albumService.AddAsync(dto);
     }
 
     [HttpGet("GetById")]
-    public async Task<AlbumDto> GetByIdAsync(int id)
+    public async Task<AlbumDto> GetById(int id)
     {
         return await _albumService.GetByIdAsync(id);
     }
 
     [HttpPut("Update")]
-    public async Task Update(AlbumDto dto)
+    public async Task Update(AlbumEditDto dto)
     {
         await _albumService.UpdateAsync(dto);
     }

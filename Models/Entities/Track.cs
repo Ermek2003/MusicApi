@@ -1,6 +1,6 @@
 ﻿namespace Models.Entities;
 
-public class Track : IEntity
+public class Track
 {
     public int Id { get; set; }
     public required string Name { get; set; }

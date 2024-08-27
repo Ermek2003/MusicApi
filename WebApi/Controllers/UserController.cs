@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTOs;
-using Models.DTOs.Auth;
 
 namespace WebApi.Controllers;
 
@@ -22,10 +21,9 @@ public class UserController : ControllerBase
 
     [HttpPost("PromoteUserToAdmin")]
     [Authorize(Roles = "SuperAdmin")]
-    public async Task<IActionResult> PromoteUserToAdmin(int userId)
+    public async Task PromoteUserToAdmin(int userId)
     {
         await _userService.AssignAdminRoleToUser(userId);
-        return Ok();
     }
 
     [HttpGet("GetAllUsers")]

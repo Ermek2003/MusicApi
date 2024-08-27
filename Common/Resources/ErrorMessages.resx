@@ -123,14 +123,23 @@
   <data name="AlbumNotFound" xml:space="preserve">
     <value>Album with Id {0} doesn't exist</value>
   </data>
+  <data name="PlaylistAlreadyExist" xml:space="preserve">
+    <value>Playlist with name {0} already exist</value>
+  </data>
   <data name="PlaylistNotFound" xml:space="preserve">
     <value>Playlist with ID {0} doesn't exist</value>
   </data>
   <data name="TrackAlreadyExist" xml:space="preserve">
     <value>Track with name {0} already exist</value>
   </data>
+  <data name="TrackAlreadyInPlaylist" xml:space="preserve">
+    <value>Track with ID {0} already in playlist with ID {1}</value>
+  </data>
   <data name="TrackNotFound" xml:space="preserve">
     <value>Track with ID {0} doesn't exist</value>
+  </data>
+  <data name="TrackNotInPlaylist" xml:space="preserve">
+    <value>Track with ID {0} doesn't exist in playlist with ID {1}</value>
   </data>
   <data name="UserNotFound" xml:space="preserve">
     <value>User with ID {0} doesn't exist</value>

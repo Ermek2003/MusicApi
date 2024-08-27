@@ -1,4 +1,5 @@
-﻿using Infrastructure.Interfaces.IRepository;
+﻿using Common.Resources;
+using Infrastructure.Interfaces.IRepository;
 using Infrastructure.Interfaces.IServices;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,7 @@ public class UserService : IUserService
     public async Task AssignAdminRoleToUser(int userId)
     {
         var user = await _userRepository.GetByIdAsync(userId)
-            ?? throw new InvalidOperationException($"User with Id {userId} doesn't exist");
+            ?? throw new InvalidOperationException(string.Format(ErrorMessages.UserNotFound, userId));
         if (user.Role == "User")
         {
             user.Role = "Admin";

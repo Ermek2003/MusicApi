@@ -18,12 +18,13 @@ public class PlaylistService : IPlaylistService
         _userRepository = userRepository;
     }
 
-    public async Task<int> AddAsync(PlaylistDto.Add dto)
+    public async Task<int> AddAsync(PlaylistAddDto dto)
     {
         if (await _userRepository.GetByIdAsync(dto.UserId) is null)
             throw new InvalidOperationException(string.Format(ErrorMessages.UserNotFound, dto.UserId));
 
-        //if (await )
+        if (await _playlistRepository.AnyAsync(p => p.Name == dto.Name && p.UserId == dto.UserId))
+            throw new InvalidOperationException(string.Format(ErrorMessages.PlaylistAlreadyExist, dto.UserId));
 
         var playlist = dto.Adapt<Playlist>();
 
@@ -38,7 +39,7 @@ public class PlaylistService : IPlaylistService
         var playlist = await _playlistRepository.GetByIdAsync(id)
             ?? throw new InvalidOperationException(string.Format(ErrorMessages.PlaylistNotFound, id));
 
-        await _playlistRepository.DeleteAsync(id);
+        _playlistRepository.Delete(playlist);
 
         await _playlistRepository.SaveChangesAsync();
     }
@@ -51,14 +52,14 @@ public class PlaylistService : IPlaylistService
     public async Task<PlaylistDto> GetByIdAsync(int id)
     {
         var playlist = await _playlistRepository.GetByIdAsync(id)
-            ?? throw new InvalidOperationException($"Playlist with ID {id} doesn't exist");
+            ?? throw new InvalidOperationException(string.Format(ErrorMessages.PlaylistNotFound, id));
         return playlist.Adapt<PlaylistDto>();
     }
 
-    public async Task Update(PlaylistDto dto)
+    public async Task UpdateAsync(PlaylistEditDto dto)
     {
         if (await _playlistRepository.GetByIdAsync(dto.Id) is null)
-            throw new InvalidOperationException($"Playlist with ID {dto.Id} doesn't exist");
+            throw new InvalidOperationException(string.Format(ErrorMessages.PlaylistNotFound, dto.Id));
         _playlistRepository.Update(dto.Adapt<Playlist>());
         await _playlistRepository.SaveChangesAsync();
     }

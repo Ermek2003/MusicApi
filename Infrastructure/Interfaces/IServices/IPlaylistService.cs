@@ -4,9 +4,9 @@ namespace Infrastructure.Interfaces.IServices;
 
 public interface IPlaylistService
 {
-    Task<int> AddAsync(PlaylistDto.Add dto);
+    Task<int> AddAsync(PlaylistAddDto dto);
     Task DeleteAsync(int id);
-    Task Update(PlaylistDto dto);
+    Task UpdateAsync(PlaylistEditDto dto);
     Task<List<PlaylistDto>> GetAllAsync();
     Task<PlaylistDto> GetByIdAsync(int id);
 }

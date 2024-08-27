@@ -1,12 +1,11 @@
 ﻿using DAL.EF;
 using Infrastructure.Interfaces.IRepository;
 using Microsoft.EntityFrameworkCore;
-using Models.Entities;
 using System.Linq.Expressions;
 
 namespace DAL.Repositories;
 
-public class GenericRepository<T> : IGenericRepository<T> where T : class, IEntity
+public class GenericRepository<T> : IGenericRepository<T> where T : class
 {
     private readonly AppDbContext _context;
 
@@ -22,11 +21,9 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class, IEnti
         await Set.AddAsync(item);
     }
 
-    public async Task DeleteAsync(int id)
+    public void Delete(T item)
     {
-        var entity = await Set.FindAsync(id);
-        if (entity is not null)
-            Set.Remove(entity);
+        Set.Remove(item);
     }
 
     public async Task<bool> AnyAsync(Expression<Func<T, bool>>? filter = null)
@@ -54,5 +51,10 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class, IEnti
     public void Update(T entity)
     {
         Set.Update(entity);
+    }
+
+    public async Task<T> FindAsync(Expression<Func<T, bool>>? filter = null)
+    {
+        return await Set.FirstOrDefaultAsync(filter);
     }
 }

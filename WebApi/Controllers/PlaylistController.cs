@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTOs;
-using Models.Entities;
 
 namespace WebApi.Controllers;
 
@@ -18,7 +17,7 @@ public class PlaylistController : ControllerBase
     }
 
     [HttpGet("GetPlaylists")]
-    public async Task<List<PlaylistDto>> GetPlaylists()
+    public async Task<List<PlaylistDto>> GetAll()
     {
         return await _playlistService.GetAllAsync();
     }
@@ -31,7 +30,7 @@ public class PlaylistController : ControllerBase
 
     [Authorize(Roles = "Admin,SuperAdmin")]
     [HttpPost("AddPlaylist")]
-    public async Task<int> AddPlaylist(PlaylistDto.Add playlist)
+    public async Task<int> Add(PlaylistAddDto playlist)
     {
         return await _playlistService.AddAsync(playlist);
     }
@@ -45,8 +44,8 @@ public class PlaylistController : ControllerBase
 
     [Authorize(Roles = "Admin,SuperAdmin")]
     [HttpPut("UpdatePlaylist")]
-    public async Task Update(PlaylistDto playlist)
+    public async Task Update(PlaylistEditDto playlist)
     {
-        await _playlistService.Update(playlist);
+        await _playlistService.UpdateAsync(playlist);
     }
 }

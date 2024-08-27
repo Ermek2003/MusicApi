@@ -26,7 +26,7 @@ public class AuthService : IAuthService
 
     public async Task<AuthResponse> RegisterAsync(RegisterDto dto)
     {
-        if (await _userRepository.UserExistAsync(dto.Username))
+        if (await _userRepository.AnyAsync(u => u.Name == dto.Username))
             throw new Exception("Username already exist");
         var user = new User
         {
@@ -82,7 +82,7 @@ public class AuthService : IAuthService
 
         var existingToken = user.RefreshTokens.FirstOrDefault(x => x.Token == refreshToken);
 
-        if (existingToken is null || !_userRepository.IsTokenActive(existingToken))
+        if (existingToken is null || !existingToken.IsActive)
             throw new Exception("Invalid refresh token");
 
         var newJwtToken = GenerateJwtToken(user);

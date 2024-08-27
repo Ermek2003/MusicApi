@@ -8,5 +8,5 @@ public interface IAlbumService
     Task<AlbumDto> GetByIdAsync(int id);
     Task<List<AlbumDto>> GetAllAsync();
     Task DeleteAsync(int id);
-    Task UpdateAsync(AlbumDto dto);
+    Task UpdateAsync(AlbumEditDto dto);
 }

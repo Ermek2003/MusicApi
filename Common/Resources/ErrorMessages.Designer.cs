@@ -79,6 +79,15 @@ namespace Common.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Playlist with name {0} already exist.
+        /// </summary>
+        public static string PlaylistAlreadyExist {
+            get {
+                return ResourceManager.GetString("PlaylistAlreadyExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Playlist with ID {0} doesn&apos;t exist.
         /// </summary>
         public static string PlaylistNotFound {
@@ -97,11 +106,29 @@ namespace Common.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Track with ID {0} already in playlist with ID {1}.
+        /// </summary>
+        public static string TrackAlreadyInPlaylist {
+            get {
+                return ResourceManager.GetString("TrackAlreadyInPlaylist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Track with ID {0} doesn&apos;t exist.
         /// </summary>
         public static string TrackNotFound {
             get {
                 return ResourceManager.GetString("TrackNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Track with ID {0} doesn&apos;t exist in playlist with ID {1}.
+        /// </summary>
+        public static string TrackNotInPlaylist {
+            get {
+                return ResourceManager.GetString("TrackNotInPlaylist", resourceCulture);
             }
         }
         

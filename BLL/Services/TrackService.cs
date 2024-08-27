@@ -46,7 +46,7 @@ public class TrackService : ITrackService
         if (!string.IsNullOrEmpty(track.Url) && File.Exists(track.Url))
             File.Delete(track.Url);
 
-        await _trackRepository.DeleteAsync(id);
+        _trackRepository.Delete(track);
         await _trackRepository.SaveChangesAsync();
     }
 

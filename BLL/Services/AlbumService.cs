@@ -35,10 +35,10 @@ public class AlbumService : IAlbumService
 
     public async Task DeleteAsync(int id)
     {
-        if (!await _albumRepository.AnyAsync(a => a.Id == id))
-            throw new InvalidOperationException(string.Format(ErrorMessages.AlbumNotFound, id));
+        var album = await _albumRepository.GetByIdAsync(id)
+            ?? throw new InvalidOperationException(string.Format(ErrorMessages.AlbumNotFound, id));
 
-        await _albumRepository.DeleteAsync(id);
+        _albumRepository.Delete(album);
         await _albumRepository.SaveChangesAsync();
     }
 
@@ -55,7 +55,7 @@ public class AlbumService : IAlbumService
         return album.Adapt<AlbumDto>();
     }
 
-    public async Task UpdateAsync(AlbumDto dto)
+    public async Task UpdateAsync(AlbumEditDto dto)
     {
         var album = await _albumRepository.GetByIdAsync(dto.Id)
             ?? throw new InvalidOperationException(string.Format(ErrorMessages.AlbumNotFound, dto.Id));
